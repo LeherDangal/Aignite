@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodAI - Smart Food Assistant</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="particles-background"></div>
+    
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen active">
+        <div class="welcome-content">
+            <div class="logo animate__animated animate__fadeIn">
+                <i class="fas fa-robot"></i>
+                <span>FoodAI</span>
+            </div>
+            <h1 class="animate__animated animate__fadeInUp">Your Smart Food Assistant</h1>
+            <p class="animate__animated animate__fadeInUp animate__delay-1s">Personalized recommendations powered by AI</p>
+            <button id="welcome-next" class="next-btn animate__animated animate__fadeInUp animate__delay-2s">
+                Get Started <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- User Profile Form -->
+    <div id="profile-screen" class="screen">
+        <div class="form-container animate__animated animate__fadeIn">
+            <div class="form-header">
+                <div class="progress-bar">
+                    <div class="progress-step active" data-step="1"></div>
+                    <div class="progress-step" data-step="2"></div>
+                    <div class="progress-step" data-step="3"></div>
+                    <div class="progress-step" data-step="4"></div>
+                </div>
+                <h2><i class="fas fa-user-circle"></i> Create Your Profile</h2>
+                <p>Let's get to know you better</p>
+            </div>
+            <form id="profile-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" required placeholder="Enter your full name">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" min="1" max="120" required placeholder="Your age">
+                        <i class="fas fa-birthday-cake"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="sex">Sex</label>
+                        <select id="sex" required>
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <i class="fas fa-venus-mars"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" id="state" required placeholder="Your state">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" required placeholder="Your city">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="pincode">Pin Code</label>
+                        <input type="text" id="pincode" pattern="\d{6}" required placeholder="6-digit pincode">
+                        <i class="fas fa-map-pin"></i>
+                    </div>
+                </div>
+                <button type="submit" class="next-btn">
+                    Continue <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dietary Restrictions Screen -->
+    <div id="dietary-screen" class="screen">
+        <div class="form-container animate__animated animate__fadeIn">
+            <div class="form-header">
+                <div class="progress-bar">
+                    <div class="progress-step completed" data-step="1"></div>
+                    <div class="progress-step active" data-step="2"></div>
+                    <div class="progress-step" data-step="3"></div>
+                    <div class="progress-step" data-step="4"></div>
+                </div>
+                <h2><i class="fas fa-utensils"></i> Dietary Preferences</h2>
+                <p>Help us understand your dietary needs</p>
+            </div>
+            <form id="dietary-form">
+                <div class="checkbox-grid">
+                    <h3>Dietary Restrictions</h3>
+                    <div class="checkbox-row">
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="dietary" value="vegetarian">
+                            <div class="checkbox-content">
+                                <i class="fas fa-leaf"></i>
+                                <span>Vegetarian</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="dietary" value="vegan">
+                            <div class="checkbox-content">
+                                <i class="fas fa-seedling"></i>
+                                <span>Vegan</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="dietary" value="halal">
+                            <div class="checkbox-content">
+                                <i class="fas fa-moon"></i>
+                                <span>Halal</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="checkbox-row">
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="dietary" value="kosher">
+                            <div class="checkbox-content">
+                                <i class="fas fa-star-of-david"></i>
+                                <span>Kosher</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="dietary" value="jain">
+                            <div class="checkbox-content">
+                                <i class="fas fa-om"></i>
+                                <span>Jain</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="dietary" value="gluten-free">
+                            <div class="checkbox-content">
+                                <i class="fas fa-bread-slice"></i>
+                                <span>Gluten Free</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="checkbox-row">
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="dietary" value="lactose-free">
+                            <div class="checkbox-content">
+                                <i class="fas fa-cheese"></i>
+                                <span>Lactose Free</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="dietary" value="nut-free">
+                            <div class="checkbox-content">
+                                <i class="fas fa-peanut"></i>
+                                <span>Nut Free</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card other-option">
+                            <input type="checkbox" id="other-dietary-checkbox">
+                            <div class="checkbox-content">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Other</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="other-input" id="other-dietary-container">
+                        <input type="text" id="other-dietary" placeholder="Specify other restrictions">
+                    </div>
+                </div>
+                <button type="submit" class="next-btn">
+                    Continue <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Allergies Screen -->
+    <div id="allergies-screen" class="screen">
+        <div class="form-container animate__animated animate__fadeIn">
+            <div class="form-header">
+                <div class="progress-bar">
+                    <div class="progress-step completed" data-step="1"></div>
+                    <div class="progress-step completed" data-step="2"></div>
+                    <div class="progress-step active" data-step="3"></div>
+                    <div class="progress-step" data-step="4"></div>
+                </div>
+                <h2><i class="fas fa-allergies"></i> Food Allergies</h2>
+                <p>Select all that apply to you</p>
+            </div>
+            <form id="allergies-form">
+                <div class="checkbox-grid">
+                    <h3>Common Allergens</h3>
+                    <div class="checkbox-row">
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="allergies" value="peanuts">
+                            <div class="checkbox-content">
+                                <i class="fas fa-peanut"></i>
+                                <span>Peanuts</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="allergies" value="tree-nuts">
+                            <div class="checkbox-content">
+                                <i class="fas fa-acorn"></i>
+                                <span>Tree Nuts</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="allergies" value="shellfish">
+                            <div class="checkbox-content">
+                                <i class="fas fa-crab"></i>
+                                <span>Shellfish</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="checkbox-row">
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="allergies" value="fish">
+                            <div class="checkbox-content">
+                                <i class="fas fa-fish"></i>
+                                <span>Fish</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="allergies" value="eggs">
+                            <div class="checkbox-content">
+                                <i class="fas fa-egg"></i>
+                                <span>Eggs</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="allergies" value="milk">
+                            <div class="checkbox-content">
+                                <i class="fas fa-wine-bottle"></i>
+                                <span>Milk</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="checkbox-row">
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="allergies" value="soy">
+                            <div class="checkbox-content">
+                                <i class="fas fa-seedling"></i>
+                                <span>Soy</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="allergies" value="wheat">
+                            <div class="checkbox-content">
+                                <i class="fas fa-wheat"></i>
+                                <span>Wheat</span>
+                            </div>
+                        </label>
+                        <label class="checkbox-card other-option">
+                            <input type="checkbox" id="other-allergies-checkbox">
+                            <div class="checkbox-content">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Other</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="other-input" id="other-allergies-container">
+                        <input type="text" id="other-allergies" placeholder="Specify other allergies">
+                    </div>
+                </div>
+                <button type="submit" class="next-btn">
+                    Continue <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Food Habits Screen -->
+    <div id="habits-screen" class="screen">
+        <div class="form-container animate__animated animate__fadeIn">
+            <div class="form-header">
+                <div class="progress-bar">
+                    <div class="progress-step completed" data-step="1"></div>
+                    <div class="progress-step completed" data-step="2"></div>
+                    <div class="progress-step completed" data-step="3"></div>
+                    <div class="progress-step active" data-step="4"></div>
+                </div>
+                <h2><i class="fas fa-heartbeat"></i> Food Habits</h2>
+                <p>Tell us about your eating preferences</p>
+            </div>
+            <form id="habits-form">
+                <div class="radio-grid">
+                    <h3>Your typical diet includes:</h3>
+                    <div class="radio-row">
+                        <label class="radio-card">
+                            <input type="radio" name="habits" value="vegetarian" required>
+                            <div class="radio-content">
+                                <i class="fas fa-leaf"></i>
+                                <span>Vegetarian</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="habits" value="non-vegetarian">
+                            <div class="radio-content">
+                                <i class="fas fa-drumstick-bite"></i>
+                                <span>Non-Vegetarian</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="radio-row">
+                        <label class="radio-card">
+                            <input type="radio" name="habits" value="pescatarian">
+                            <div class="radio-content">
+                                <i class="fas fa-fish"></i>
+                                <span>Pescatarian</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="habits" value="flexitarian">
+                            <div class="radio-content">
+                                <i class="fas fa-balance-scale"></i>
+                                <span>Flexitarian</span>
+                                <small>Occasionally eats meat</small>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cuisine-pref"><i class="fas fa-globe-asia"></i> Preferred Cuisines</label>
+                    <input type="text" id="cuisine-pref" placeholder="e.g., Indian, Italian, Chinese (comma separated)">
+                </div>
+                <button type="submit" class="next-btn">
+                    Finish Setup <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="screen">
+        <div class="dashboard-container">
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <div class="logo">
+                        <i class="fas fa-robot"></i>
+                        <span>FoodAI</span>
+                    </div>
+                    <button class="menu-toggle" id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                <div class="profile-summary">
+                    <div class="profile-image-container">
+                        <img src="images/profile-placeholder.png" alt="Profile" id="profile-img">
+                        <div class="online-status"></div>
+                    </div>
+                    <h3 id="profile-name">User</h3>
+                    <p id="location-summary">Location</p>
+                    <div class="ai-status">
+                        <span class="status-dot"></span>
+                        <span>AI Assistant Active</span>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li class="active" data-section="search">
+                            <i class="fas fa-search"></i>
+                            <span>Search</span>
+                            <div class="nav-tooltip">Find food recommendations</div>
+                        </li>
+                        <li data-section="history">
+                            <i class="fas fa-history"></i>
+                            <span>History</span>
+                            <div class="nav-tooltip">Your search history</div>
+                        </li>
+                        <li data-section="saved">
+                            <i class="fas fa-bookmark"></i>
+                            <span>Saved</span>
+                            <div class="nav-tooltip">Saved favorites</div>
+                        </li>
+                        <li data-section="settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                            <div class="nav-tooltip">Account settings</div>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    <div class="ai-helper">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>AI Helper</span>
+                    </div>
+                    <div class="version-info">
+                        v2.4.1 | FoodAI
+                    </div>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="content-header">
+                    <h2 id="content-title">What are you craving today?</h2>
+                    <div class="user-actions">
+                        <button class="action-btn notification-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <div class="user-menu">
+                            <img src="images/profile-placeholder.png" alt="User" class="user-avatar">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-section active" id="search-section">
+                    <div class="search-header">
+                        <div class="search-bar-container">
+                            <div class="search-bar">
+                                <input type="text" id="food-search" placeholder="Search for food, ingredients, or recipes...">
+                                <button id="search-btn"><i class="fas fa-search"></i></button>
+                                <div class="voice-search-btn">
+                                    <i class="fas fa-microphone"></i>
+                                </div>
+                            </div>
+                            <div class="search-suggestions">
+                                <span>Popular: </span>
+                                <a href="#">Pizza</a>
+                                <a href="#">Burger</a>
+                                <a href="#">Pasta</a>
+                                <a href="#">Salad</a>
+                                <a href="#">Sushi</a>
+                            </div>
+                        </div>
+                        <div class="search-filters">
+                            <div class="filter-group">
+                                <label for="platform-filter"><i class="fas fa-store"></i> Platform</label>
+                                <select id="platform-filter">
+                                    <option value="all">All Platforms</option>
+                                    <option value="swiggy">Swiggy</option>
+                                    <option value="zomato">Zomato</option>
+                                    <option value="blinkit">Blinkit</option>
+                                    <option value="instamart">Instamart</option>
+                                    <option value="zepto">Zepto</option>
+                                    <option value="kfc">KFC</option>
+                                    <option value="mcdonalds">McDonald's</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="sort-filter"><i class="fas fa-sort"></i> Sort By</label>
+                                <select id="sort-filter">
+                                    <option value="relevance">Relevance</option>
+                                    <option value="price-asc">Price: Low to High</option>
+                                    <option value="price-desc">Price: High to Low</option>
+                                    <option value="rating">Rating</option>
+                                    <option value="distance">Distance</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label><i class="fas fa-sliders-h"></i> More Filters</label>
+                                <button class="filter-btn">Filters</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-results" id="search-results">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Finding the best options for you...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-section" id="history-section">
+                    <div class="section-header">
+                        <h2>Your Search History</h2>
+                        <button class="clear-history-btn">Clear All</button>
+                    </div>
+                    <div class="history-items" id="history-items">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+                <div class="content-section" id="saved-section">
+                    <div class="section-header">
+                        <h2>Saved Items</h2>
+                        <div class="view-options">
+                            <button class="view-option active" data-view="grid"><i class="fas fa-th"></i></button>
+                            <button class="view-option" data-view="list"><i class="fas fa-list"></i></button>
+                        </div>
+                    </div>
+                    <div class="saved-items grid-view" id="saved-items">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+                <div class="content-section" id="settings-section">
+                    <h2>Settings</h2>
+                    <div class="settings-tabs">
+                        <button class="tab-btn active" data-tab="profile">Profile</button>
+                        <button class="tab-btn" data-tab="preferences">Preferences</button>
+                        <button class="tab-btn" data-tab="privacy">Privacy</button>
+                        <button class="tab-btn" data-tab="notifications">Notifications</button>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-options active" data-tab-content="profile">
+                            <div class="settings-group">
+                                <h3><i class="fas fa-user-cog"></i> Profile Settings</h3>
+                                <button id="edit-profile-btn">Edit Profile</button>
+                                <button id="change-password-btn">Change Password</button>
+                                <button id="update-avatar-btn">Update Profile Picture</button>
+                            </div>
+                            <div class="settings-group">
+                                <h3><i class="fas fa-map-marker-alt"></i> Location Settings</h3>
+                                <button id="update-location-btn">Update Location</button>
+                            </div>
+                        </div>
+                        <div class="settings-options" data-tab-content="preferences">
+                            <div class="settings-group">
+                                <h3><i class="fas fa-utensils"></i> Dietary Preferences</h3>
+                                <button id="update-dietary-btn">Update Dietary Preferences</button>
+                            </div>
+                            <div class="settings-group">
+                                <h3><i class="fas fa-allergies"></i> Allergies</h3>
+                                <button id="update-allergies-btn">Update Allergies</button>
+                            </div>
+                            <div class="settings-group">
+                                <h3><i class="fas fa-heartbeat"></i> Food Habits</h3>
+                                <button id="update-habits-btn">Update Food Habits</button>
+                            </div>
+                        </div>
+                        <div class="settings-options" data-tab-content="privacy">
+                            <div class="settings-group">
+                                <h3><i class="fas fa-lock"></i> Privacy Settings</h3>
+                                <div class="privacy-option">
+                                    <span>Make profile public</span>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="privacy-option">
+                                    <span>Share search history</span>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="privacy-option">
+                                    <span>Allow personalized ads</span>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-options" data-tab-content="notifications">
+                            <div class="settings-group">
+                                <h3><i class="fas fa-bell"></i> Notification Settings</h3>
+                                <div class="notification-option">
+                                    <span>Recommendation alerts</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="notification-option">
+                                    <span>Deal notifications</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="notification-option">
+                                    <span>New feature updates</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="danger-zone">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                        <button id="delete-account-btn" class="danger">Delete Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body" id="modal-body">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>How was this recommendation?</h2>
+            <p>Your feedback helps improve our AI recommendations</p>
+            <form id="feedback-form">
+                <input type="hidden" id="feedback-item-id">
+                <div class="rating">
+                    <input type="radio" id="star5" name="rating" value="5"><label for="star5" title="Excellent"></label>
+                    <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="Good"></label>
+                    <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="Average"></label>
+                    <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="Poor"></label>
+                    <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="Terrible"></label>
+                </div>
+                <div class="form-group">
+                    <label for="feedback-comments">Additional comments (optional)</label>
+                    <textarea id="feedback-comments" rows="3" placeholder="What did you like or dislike about this recommendation?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- AI Chat Helper -->
+    <div class="ai-chat-helper">
+        <div class="chat-header">
+            <div class="ai-info">
+                <div class="ai-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="ai-status">
+                    <h4>FoodAI Assistant</h4>
+                    <p>Online</p>
+                </div>
+            </div>
+            <button class="close-chat"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-messages">
+            <div class="message ai-message">
+                <div class="message-content">
+                    Hi there! I'm your FoodAI assistant. How can I help you today?
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Ask me anything about food...">
+            <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <button class="ai-helper-toggle">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+
+    <script src="js/particles.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/ai-agents.js"></script>
+    <script src="js/scraper.js"></script>
+</body>
+</html>

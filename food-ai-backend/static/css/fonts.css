@@ -1,0 +1,144 @@
+/* fonts.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+/* Base font styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--dark-color);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+/* Special text elements */
+.welcome-content h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.profile-summary h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.result-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+.modal-product-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Form elements */
+.form-container h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.form-group label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+/* Buttons */
+.next-btn, .action-btn, .submit-btn {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Navigation */
+.sidebar nav ul li {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+/* Price and rating text */
+.result-price {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+.result-rating {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+/* Badges */
+.platform-badge, .distance-badge {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Loading text */
+.loading-spinner p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+/* Responsive font sizes */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .welcome-content h1 {
+        font-size: 2rem;
+    }
+}
