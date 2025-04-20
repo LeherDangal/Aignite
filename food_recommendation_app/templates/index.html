@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bite-AI - Personalized Food Assistant</title>
+    <style>
+        :root {
+            --primary: #030812;
+            --secondary: #020764;
+            --accent: #043780;
+            --highlight: #025E04;
+            --text-light: #FFFFFF;
+            --text-dark: #030812;
+            --background: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+
+            background: linear-gradient(rgba(0, 0, 0, 0.4)), url(https://i.pinimg.com/originals/2d/50/40/2d5040b746695d9f85b7250a422b991b.gif);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Welcome Screen */
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6)), url(https://i.pinimg.com/originals/2d/50/40/2d5040b746695d9f85b7250a422b991b.gif);
+            color: var(--text-light);
+            text-align: center;
+            padding: 20px;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+        
+        .welcome-screen h1 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .welcome-screen p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .next-btn {
+            background-color: var(--highlight);
+            color: var(--text-light);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        
+        .next-btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Form Screens */
+        .form-screen {
+            display: none;
+            padding: 40px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin: 40px auto;
+            max-width: 800px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-screen.active {
+            display: block;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-header h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .form-header p {
+            color: var(--secondary);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(4, 55, 128, 0.2);
+        }
+        
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .checkbox-item:hover, .radio-item:hover {
+            background: #e9ecef;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background-color: var(--highlight);
+            color: var(--text-light);
+            border: none;
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary);
+            color: var(--text-light);
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            
+            background: linear-gradient(rgba(19, 3, 63, 0.71));
+            background-size: cover;
+        }
+        
+        .dashboard.active {
+            display: block;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .search-bar {
+            flex-grow: 1;
+            max-width: 600px;
+            display: flex;
+            min-width: 250px;
+        }
+        
+        .search-input {
+            flex-grow: 1;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(4, 55, 128, 0.2);
+        }
+        
+        .search-btn {
+            background-color: var(--highlight);
+            color: var(--text-light);
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--accent);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 20px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .user-avatar:hover {
+            transform: scale(1.1);
+        }
+        
+        .dashboard-content {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-dark);
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: var(--secondary);
+            color: var(--text-light);
+            transform: translateX(5px);
+        }
+        
+        .main-content {
+            flex-grow: 1;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: rgb(231, 226, 226);
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--highlight);
+        }
+        
+        .section-description {
+            color: rgb(212, 203, 203);
+            margin-bottom: 20px;
+        }
+        
+        .recommendations-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .recommendation-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--highlight);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .card-image {
+            height: 200px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .card-source {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--text-light);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .card-price {
+            font-weight: bold;
+            color: var(--highlight);
+            font-size: 1.1rem;
+        }
+        
+        .card-distance {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+        
+        .card-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .card-btn {
+            flex-grow: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .card-btn-primary {
+            background-color: var(--highlight);
+            color: var(--text-light);
+        }
+        
+        .card-btn-primary:hover {
+            background-color: var(--accent);
+        }
+        
+        .card-btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .card-btn-secondary:hover {
+            background-color: var(--secondary);
+            color: var(--text-light);
+        }
+        
+        /* Favorites & Order History Styles */
+        .favorites-container, .history-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .empty-state-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .empty-state-description {
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        /* Preferences & Profile Styles */
+        .preferences-form, .profile-form {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        /* Feedback Form */
+        .feedback-form {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .feedback-form textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            resize: vertical;
+            transition: var(--transition);
+        }
+        
+        .feedback-form textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(4, 55, 128, 0.2);
+        }
+        
+        /* Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            grid-column: 1 / -1;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--highlight);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+                margin-bottom: 20px;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .user-profile {
+                margin-left: 0;
+            }
+            
+            .welcome-screen h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <h1>Welcome to Bite-AI!</h1>
+        <p>Your personalized food recommendation assistant that understands your dietary needs and preferences.</p>
+        <button class="next-btn" id="welcomeNextBtn">
+            Get Started <span>→</span>
+        </button>
+    </div>
+    
+    <!-- User Profile Form -->
+    <div class="container">
+        <div class="form-screen" id="profileForm">
+            <div class="form-header">
+                <h2>Tell Us About Yourself</h2>
+                <p>This helps us provide personalized recommendations just for you</p>
+            </div>
+            
+            <form id="userProfileForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" class="form-control" min="1" max="120" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" class="form-control" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                        <option value="prefer-not-to-say">Prefer not to say</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" id="state" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pincode">Pin Code</label>
+                    <input type="text" id="pincode" class="form-control" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="profileBackBtn">Back</button>
+                    <button type="button" class="btn btn-primary" id="profileNextBtn">Next</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Dietary Preferences Form -->
+        <div class="form-screen" id="dietForm">
+            <div class="form-header">
+                <h2>Your Dietary Preferences</h2>
+                <p>Select all that apply to help us filter recommendations</p>
+            </div>
+            
+            <form id="dietFormForm">
+                <div class="form-group">
+                    <label>Diet Type</label>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="dietType" value="vegetarian"> Vegetarian
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="dietType" value="non-vegetarian"> Non-Vegetarian
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="dietType" value="vegan"> Vegan
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="dietType" value="pescatarian"> Pescatarian
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Religious/Cultural Dietary Restrictions</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="religiousRestrictions" value="halal"> Halal
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="religiousRestrictions" value="kosher"> Kosher
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="religiousRestrictions" value="jain"> Jain
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="religiousRestrictions" value="none"> None
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Other Dietary Preferences</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="otherPreferences" value="gluten-free"> Gluten-Free
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="otherPreferences" value="lactose-free"> Lactose-Free
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="otherPreferences" value="low-carb"> Low-Carb
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="otherPreferences" value="keto"> Keto
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="otherPreferences" value="paleo"> Paleo
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="dietBackBtn">Back</button>
+                    <button type="button" class="btn btn-primary" id="dietNextBtn">Next</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Allergies Form -->
+        <div class="form-screen" id="allergyForm">
+            <div class="form-header">
+                <h2>Food Allergies & Intolerances</h2>
+                <p>Let us know about any food allergies to keep you safe</p>
+            </div>
+            
+            <form id="allergyFormForm">
+                <div class="form-group">
+                    <label>Common Allergens</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="allergies" value="peanuts"> Peanuts
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="allergies" value="tree-nuts"> Tree Nuts
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="allergies" value="milk"> Milk
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="allergies" value="eggs"> Eggs
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="allergies" value="wheat"> Wheat
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="allergies" value="soy"> Soy
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="allergies" value="fish"> Fish
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="allergies" value="shellfish"> Shellfish
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="otherAllergies">Other Allergies (comma separated)</label>
+                    <input type="text" id="otherAllergies" class="form-control" placeholder="e.g., sesame, mustard, etc.">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="allergyBackBtn">Back</button>
+                    <button type="button" class="btn btn-primary" id="allergyNextBtn">Finish Setup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Dashboard -->
+    <div class="container dashboard" id="dashboard">
+        <div class="dashboard-header">
+            <div class="search-bar">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search for food items, restaurants, or recipes...">
+                <button class="search-btn" id="searchBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="user-profile">
+                <div class="user-avatar" id="userAvatar">U</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active" data-section="search"><span>🔍</span> Search</a></li>
+                    <li><a href="#" data-section="favorites"><span>❤️</span> Favorites</a></li>
+                    <li><a href="#" data-section="history"><span>🛒</span> Order History</a></li>
+                    <li><a href="#" data-section="preferences"><span>⚙️</span> Preferences</a></li>
+                    <li><a href="#" data-section="profile"><span>👤</span> Profile</a></li>
+                    <li><a href="#" data-section="feedback"><span>📝</span> Feedback</a></li>
+                </ul>
+            </div>
+            
+            <div class="main-content">
+                <!-- Search Section (Default) -->
+                <div class="section-content active" id="search-section">
+                    <h2 class="section-title">Recommended For You</h2>
+                    <p class="section-description" id="recommendationContext">Based on your profile and location</p>
+                    
+                    <div class="recommendations-container" id="recommendationsContainer">
+                        <!-- Recommendations will be loaded here -->
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Favorites Section -->
+                <div class="section-content" id="favorites-section">
+                    <h2 class="section-title">Your Favorites</h2>
+                    <p class="section-description">Your saved favorite food items</p>
+                    
+                    <div class="favorites-container" id="favoritesContainer">
+                        <!-- Favorites will be loaded here -->
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order History Section -->
+                <div class="section-content" id="history-section">
+                    <h2 class="section-title">Order History</h2>
+                    <p class="section-description">Your previous orders and purchases</p>
+                    
+                    <div class="history-container" id="historyContainer">
+                        <!-- Order history will be loaded here -->
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Preferences Section -->
+                <div class="section-content" id="preferences-section">
+                    <h2 class="section-title">Preferences</h2>
+                    <p class="section-description">Update your dietary preferences and settings</p>
+                    
+                    <div class="preferences-form">
+                        <form id="preferencesForm">
+                            <div class="form-group">
+                                <label>Diet Type</label>
+                                <div class="radio-group">
+                                    <label class="radio-item">
+                                        <input type="radio" name="dietType" value="vegetarian"> Vegetarian
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="dietType" value="non-vegetarian"> Non-Vegetarian
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="dietType" value="vegan"> Vegan
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Allergies</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="allergies" value="peanuts"> Peanuts
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="allergies" value="tree-nuts"> Tree Nuts
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="allergies" value="milk"> Milk
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="allergies" value="eggs"> Eggs
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Profile Section -->
+                <div class="section-content" id="profile-section">
+                    <h2 class="section-title">Your Profile</h2>
+                    <p class="section-description">View and update your personal information</p>
+                    
+                    <div class="profile-form">
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label for="profileName">Full Name</label>
+                                <input type="text" id="profileName" class="form-control" value="John Doe">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profileEmail">Email</label>
+                                <input type="email" id="profileEmail" class="form-control" value="john@example.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profileLocation">Location</label>
+                                <input type="text" id="profileLocation" class="form-control" value="Mumbai, Maharashtra">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Feedback Section -->
+                <div class="section-content" id="feedback-section">
+                    <h2 class="section-title">Feedback</h2>
+                    <p class="section-description">We'd love to hear your thoughts about Bite-AI</p>
+                    
+                    <div class="feedback-form">
+                        <form id="feedbackForm">
+                            <div class="form-group">
+                                <label for="feedbackType">Feedback Type</label>
+                                <select id="feedbackType" class="form-control">
+                                    <option value="general">General Feedback</option>
+                                    <option value="bug">Bug Report</option>
+                                    <option value="suggestion">Feature Suggestion</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="feedbackMessage">Your Feedback</label>
+                                <textarea id="feedbackMessage" placeholder="Tell us what you think..."></textarea>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+<script>
+    // DOM Elements
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const welcomeNextBtn = document.getElementById('welcomeNextBtn');
+    const profileForm = document.getElementById('profileForm');
+    const dietForm = document.getElementById('dietForm');
+    const allergyForm = document.getElementById('allergyForm');
+    const profileNextBtn = document.getElementById('profileNextBtn');
+    const profileBackBtn = document.getElementById('profileBackBtn');
+    const dietNextBtn = document.getElementById('dietNextBtn');
+    const dietBackBtn = document.getElementById('dietBackBtn');
+    const allergyNextBtn = document.getElementById('allergyNextBtn');
+    const allergyBackBtn = document.getElementById('allergyBackBtn');
+    const dashboard = document.getElementById('dashboard');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const recommendationsContainer = document.getElementById('recommendationsContainer');
+    const favoritesContainer = document.getElementById('favoritesContainer');
+    const historyContainer = document.getElementById('historyContainer');
+    const userAvatar = document.getElementById('userAvatar');
+    const recommendationContext = document.getElementById('recommendationContext');
+    
+    // Section elements
+    const sectionContents = document.querySelectorAll('.section-content');
+    const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+
+    // Form screens array for navigation
+    const formScreens = [profileForm, dietForm, allergyForm];
+    let currentScreen = 0;
+
+    // User Data
+    let userData = {
+        profile: {},
+        dietaryPreferences: {},
+        allergies: []
+    };
+
+    // Mock data for demonstration
+    const mockRecommendations = [
+        {
+            name: "Organic Quinoa",
+            price: 299,
+            brand: "True Elements",
+            rating: 4.5,
+            reviews: 120,
+            link: "https://example.com/product1",
+            ingredients: ["quinoa"],
+            source: "BigBasket",
+            image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1780&auto=format&fit=crop"
+        },
+        {
+            name: "Almond Milk",
+            price: 189,
+            brand: "Sofit",
+            rating: 4.2,
+            reviews: 85,
+            link: "https://example.com/product2",
+            ingredients: ["almonds", "water"],
+            source: "Nature's Basket",
+            image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?q=80&w=1935&auto=format&fit=crop"
+        },
+        {
+            name: "Gluten-Free Pasta",
+            price: 249,
+            brand: "Urban Platter",
+            rating: 4.0,
+            reviews: 64,
+            link: "https://example.com/product3",
+            ingredients: ["corn flour", "rice flour"],
+            source: "BigBasket",
+            image: "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?q=80&w=2070&auto=format&fit=crop"
+        },
+        {
+            name: "Vegan Protein Powder",
+            price: 899,
+            brand: "MyProtein",
+            rating: 4.7,
+            reviews: 210,
+            link: "https://example.com/product4",
+            ingredients: ["pea protein", "brown rice protein"],
+            source: "Amazon",
+            image: "https://images.unsplash.com/photo-1535914254981-b5012eebbd15?q=80&w=2070&auto=format&fit=crop"
+        },
+        {
+            name: "Organic Honey",
+            price: 349,
+            brand: "Dabur",
+            rating: 4.3,
+            reviews: 95,
+            link: "https://example.com/product5",
+            ingredients: ["honey"],
+            source: "BigBasket",
+            image: "https://images.unsplash.com/photo-1587049352851-8d4e89133924?q=80&w=1887&auto=format&fit=crop"
+
+        },
+        {
+            name: "Vegan Protein Powder",
+            link: "https://example.com/product4",
+            date: "2023-05-28",
+            price: 899,
+            status: "Delivered",
+            image: "https://images.unsplash.com/photo-1535914254981-b5012eebbd15?q=80&w=2070&auto=format&fit=crop"
+        },
+        {
+            name: "Organic Honey",
+            link: "https://example.com/product5",
+            date: "2023-05-15",
+            price: 349,
+            status: "Delivered",
+            image: "https://images.unsplash.com/photo-1587049352851-8d4e89133924?q=80&w=1887&auto=format&fit=crop"
+        }
+    ];
+
+    // Show specific screen
+    function showScreen(index) {
+        formScreens.forEach((screen, i) => {
+            screen.classList.toggle('active', i === index);
+        });
+        currentScreen = index;
+    }
+
+    // Show dashboard
+    function showDashboard() {
+        document.querySelector('.container').style.display = 'none';
+        dashboard.classList.add('active');
+        loadRecommendations();
+        loadFavorites();
+        loadOrderHistory();
+        
+        // Set user avatar initial
+        if (userData.profile.name) {
+            userAvatar.textContent = userData.profile.name.charAt(0).toUpperCase();
+        }
+    }
+
+    // Show specific section
+    function showSection(sectionId) {
+        sectionContents.forEach(section => {
+            section.classList.toggle('active', section.id === sectionId);
+        });
+    }
+
+    // API communication functions (mock implementations)
+    async function createUserProfile() {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Generate a random user ID
+        const userId = Math.floor(Math.random() * 1000000);
+        localStorage.setItem('biteAIUserId', userId);
+        
+        // Store the basic user data for UI
+        userData.profile.name = document.getElementById('name').value;
+        localStorage.setItem('biteAIUserData', JSON.stringify(userData));
+        
+        return userId;
+    }
+
+    async function fetchRecommendations(query = '') {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        // Filter mock data based on query
+        let filtered = mockRecommendations;
+        if (query) {
+            const q = query.toLowerCase();
+            filtered = mockRecommendations.filter(item => 
+                item.name.toLowerCase().includes(q) || 
+                item.brand.toLowerCase().includes(q)
+            );
+        }
+        
+        return {
+            intent: query ? "search" : "recommendation",
+            search_query: query,
+            items: filtered.slice(0, 6) // Return first 6 items
+        };
+    }
+
+    async function fetchFavorites() {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        return { items: mockFavorites };
+    }
+
+    async function fetchOrderHistory() {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        return { items: mockOrderHistory };
+    }
+
+    async function saveFavorite(name, link) {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        // Add to mock favorites if not already there
+        if (!mockFavorites.some(fav => fav.link === link)) {
+            mockFavorites.push({
+                name,
+                link,
+                date: new Date().toISOString().split('T')[0]
+            });
+        }
+        
+        return { status: "success" };
+    }
+
+    async function removeFavorite(link) {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        // Remove from mock favorites
+        const index = mockFavorites.findIndex(fav => fav.link === link);
+        if (index !== -1) {
+            mockFavorites.splice(index, 1);
+        }
+        
+        return { status: "success" };
+    }
+
+    async function addToOrderHistory(name, link) {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        // Add to mock order history
+        mockOrderHistory.unshift({
+            name,
+            link,
+            date: new Date().toISOString().split('T')[0],
+            price: Math.floor(Math.random() * 500) + 100,
+            status: "Ordered"
+        });
+        
+        return { status: "success" };
+    }
+
+    // UI update functions
+    async function loadRecommendations(query = '') {
+        recommendationsContainer.innerHTML = `
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        `;
+
+        try {
+            const data = await fetchRecommendations(query);
+            displayRecommendations(data.items, data.intent, data.search_query);
+        } catch (error) {
+            console.error('Error loading recommendations:', error);
+            showError(recommendationsContainer, "Failed to load recommendations. Please try again later.");
+        }
+    }
+
+    async function loadFavorites() {
+        favoritesContainer.innerHTML = `
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        `;
+
+        try {
+            const data = await fetchFavorites();
+            displayFavorites(data.items);
+        } catch (error) {
+            console.error('Error loading favorites:', error);
+            showError(favoritesContainer, "Failed to load favorites");
+        }
+    }
+
+    async function loadOrderHistory() {
+        historyContainer.innerHTML = `
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        `;
+
+        try {
+            const data = await fetchOrderHistory();
+            displayOrderHistory(data.items);
+        } catch (error) {
+            console.error('Error loading order history:', error);
+            showError(historyContainer, "Failed to load order history");
+        }
+    }
+
+    function showError(container, message) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-icon">⚠️</div>
+                <h3 class="empty-state-title">Error</h3>
+                <p class="empty-state-description">${message}</p>
+                <button class="btn btn-primary" onclick="location.reload()">Try Again</button>
+            </div>
+        `;
+    }
+
+    function displayRecommendations(items = [], intent = '', searchQuery = '') {
+        if (!items || items.length === 0) {
+            recommendationsContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">🔍</div>
+                    <h3 class="empty-state-title">No results found</h3>
+                    <p class="empty-state-description">Try adjusting your search or preferences</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Update recommendation context text
+        if (recommendationContext) {
+            recommendationContext.textContent = searchQuery 
+                ? `Results for "${searchQuery}"` 
+                : "Based on your profile and preferences";
+        }
+        
+        recommendationsContainer.innerHTML = items.map(item => `
+            <div class="recommendation-card">
+                <div class="card-badge">${item.source}</div>
+                <div class="card-image" style="background-image: url('${item.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1780&auto=format&fit=crop'}')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">${item.name}</h3>
+                    <div class="card-details">
+                        <span class="card-price">₹${item.price.toFixed(2)}</span>
+                        <span class="card-rating">⭐ ${item.rating || '4.0'} (${item.reviews || '50'})</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="card-btn card-btn-primary" onclick="window.open('${item.link}', '_blank')">
+                            <span>View</span>
+                        </button>
+                        <button class="card-btn card-btn-secondary" onclick="saveFavorite('${item.name}', '${item.link}')">
+                            <span>❤️ Save</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function displayFavorites(items) {
+        if (!items || items.length === 0) {
+            favoritesContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">❤️</div>
+                    <h3 class="empty-state-title">No favorites yet</h3>
+                    <p class="empty-state-description">Save your favorite items to see them here</p>
+                </div>
+            `;
+            return;
+        }
+        
+        favoritesContainer.innerHTML = items.map(item => `
+            <div class="recommendation-card">
+                <div class="card-image" style="background-image: url('${item.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1780&auto=format&fit=crop'}')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">${item.name}</h3>
+                    <p>Saved on: ${item.date}</p>
+                    <div class="card-actions">
+                        <button class="card-btn card-btn-primary" onclick="window.open('${item.link}', '_blank')">
+                            <span>View</span>
+                        </button>
+                        <button class="card-btn card-btn-secondary" onclick="removeFavorite('${item.link}')">
+                            <span>🗑️ Remove</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function displayOrderHistory(items) {
+        if (!items || items.length === 0) {
+            historyContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">🛒</div>
+                    <h3 class="empty-state-title">No orders yet</h3>
+                    <p class="empty-state-description">Your order history will appear here</p>
+                </div>
+            `;
+            return;
+        }
+        
+        historyContainer.innerHTML = items.map(item => `
+            <div class="recommendation-card">
+                <div class="card-image" style="background-image: url('${item.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1780&auto=format&fit=crop'}')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">${item.name}</h3>
+                    <div class="card-details">
+                        <span class="card-price">₹${item.price.toFixed(2)}</span>
+                        <span class="card-distance">${item.date} • ${item.status}</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="card-btn card-btn-primary" onclick="window.open('${item.link}', '_blank')">
+                            <span>🔄 Reorder</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    async function searchRecommendations(query) {
+        if (!query) return;
+        
+        // Show loading state
+        recommendationsContainer.innerHTML = `
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        `;
+        
+        try {
+            const data = await fetchRecommendations(query);
+            displayRecommendations(data.items, data.intent, data.search_query);
+        } catch (error) {
+            console.error('Error searching:', error);
+            showError(recommendationsContainer, "Search failed. Please try again.");
+        }
+    }
+
+    // Global functions for button clicks
+    window.saveFavorite = async function(name, link) {
+        try {
+            await saveFavorite(name, link);
+            // Refresh favorites if on that page
+            if (document.querySelector('#favorites-section.active')) {
+                loadFavorites();
+            }
+            // Show success feedback
+            alert('Added to favorites!');
+        } catch (error) {
+            console.error('Error saving favorite:', error);
+            alert('Failed to save favorite');
+        }
+    };
+
+    window.removeFavorite = async function(link) {
+        try {
+            await removeFavorite(link);
+            loadFavorites(); // Refresh the list
+        } catch (error) {
+            console.error('Error removing favorite:', error);
+            alert('Failed to remove favorite');
+        }
+    };
+
+    window.addToOrderHistory = async function(name, link) {
+        try {
+            await addToOrderHistory(name, link);
+            // Refresh order history if on that page
+            if (document.querySelector('#history-section.active')) {
+                loadOrderHistory();
+            }
+            // Show success feedback
+            alert('Order recorded!');
+        } catch (error) {
+            console.error('Error recording order:', error);
+            alert('Failed to record order');
+        }
+    };
+
+    // Event Listeners
+    welcomeNextBtn.addEventListener('click', () => {
+        welcomeScreen.style.display = 'none';
+        showScreen(0);
+    });
+
+    profileNextBtn.addEventListener('click', () => {
+        if (!document.getElementById('name').value || !document.getElementById('age').value) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        userData.profile = {
+            name: document.getElementById('name').value,
+            age: document.getElementById('age').value,
+            gender: document.getElementById('gender').value,
+            address: document.getElementById('address').value,
+            state: document.getElementById('state').value,
+            city: document.getElementById('city').value,
+            pincode: document.getElementById('pincode').value
+        };
+        showScreen(1);
+    });
+
+    profileBackBtn.addEventListener('click', () => {
+        welcomeScreen.style.display = 'flex';
+        showScreen(0);
+    });
+
+    dietNextBtn.addEventListener('click', () => {
+        const dietType = document.querySelector('input[name="dietType"]:checked');
+        if (!dietType) {
+            alert('Please select your diet type');
+            return;
+        }
+
+        userData.dietaryPreferences = {
+            dietType: dietType.value,
+            religiousRestrictions: Array.from(
+                document.querySelectorAll('input[name="religiousRestrictions"]:checked')
+            ).map(el => el.value),
+            otherPreferences: Array.from(
+                document.querySelectorAll('input[name="otherPreferences"]:checked')
+            ).map(el => el.value)
+        };
+        showScreen(2);
+    });
+
+    dietBackBtn.addEventListener('click', () => {
+        showScreen(0);
+    });
+
+    allergyNextBtn.addEventListener('click', async () => {
+        const allergies = Array.from(document.querySelectorAll('input[name="allergies"]:checked')).map(el => el.value);
+        const otherAllergies = document.getElementById('otherAllergies').value
+            .split(',')
+            .map(item => item.trim())
+            .filter(item => item);
+        userData.allergies = [...allergies, ...otherAllergies];
+        
+        try {
+            await createUserProfile();
+            showDashboard();
+        } catch (error) {
+            console.error('Failed to create profile:', error);
+        }
+    });
+
+    allergyBackBtn.addEventListener('click', () => {
+        showScreen(1);
+    });
+
+    searchBtn.addEventListener('click', () => {
+        const query = searchInput.value.trim();
+        if (query) {
+            searchRecommendations(query);
+        }
+    });
+
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const query = searchInput.value.trim();
+            if (query) {
+                searchRecommendations(query);
+            }
+        }
+    });
+
+    // Sidebar navigation
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Update active state
+            sidebarLinks.forEach(item => {
+                item.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            // Show the corresponding section
+            const sectionId = this.getAttribute('data-section') + '-section';
+            showSection(sectionId);
+        });
+    });
+
+    // Form submissions
+    document.getElementById('preferencesForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Preferences updated successfully!');
+    });
+
+    document.getElementById('profileForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Profile updated successfully!');
+    });
+
+    document.getElementById('feedbackForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you for your feedback!');
+        this.reset();
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedData = localStorage.getItem('biteAIUserData');
+        const userId = localStorage.getItem('biteAIUserId');
+        
+        if (savedData && userId) {
+            userData = JSON.parse(savedData);
+            showDashboard();
+            
+            if (userData.profile.name) {
+                userAvatar.textContent = userData.profile.name.charAt(0).toUpperCase();
+            }
+        }
+    });
+</script>
+</body>
+</html>
